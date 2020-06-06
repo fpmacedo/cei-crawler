@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const StockHistoryCrawler = require('./StockHistoryCrawler');
 const DividendsCrawler = require('./DividendsCrawler');
-const WalletCrawler = require('./WalletCrawler');
 const typedefs = require("./typedefs");
 const PuppeteerUtils = require('./PuppeteerUtils');
 
@@ -9,6 +8,9 @@ class CeiCrawler {
 
     /** @type {boolean} */
     _isLogged = false;
+
+    /** @type {number} */
+    _loginTime = 35000;//Set the time wait login to 35s.
 
     /** @type {puppeteer.Browser} */
     _browser = null;
@@ -47,6 +49,10 @@ class CeiCrawler {
         /* istanbul ignore next */
         if ((this.options && this.options.trace) || false)
             console.log('Logging at CEI...');
+
+        if (this.options.loginTime)
+        this._loginTime = this.options.loginTime;
+    
             
         this._page = await this._browser.newPage();
         await this._page.goto('https://cei.b3.com.br/CEI_Responsivo/');
@@ -59,7 +65,7 @@ class CeiCrawler {
         await PuppeteerUtils.waitForAny([
             {
                 id: 'nav',
-                pr: this._page.waitForNavigation({timeout: 40000})
+                pr: this._page.waitForNavigation({timeout: 1200000})
             },
             {
                 id: 'fail',
@@ -67,7 +73,7 @@ class CeiCrawler {
             },
             {
                 id: 'fail',
-                pr: this._page.waitFor(35000) // After 35s, consider the login has failed
+                pr: this._page.waitFor(this._loginTime) // After a determined time, consider the login has failed
             }
         ]).then(async id => {
             if (id === 'fail')
@@ -94,14 +100,6 @@ class CeiCrawler {
     async getDividends() {
         await this._login();
         return await DividendsCrawler.getDividends(this._page);
-    }
-
-    /**
-     * @returns {typedefs.DividendData} - List of available Dividends information
-     */
-    async getWallet(date) {
-        await this._login();
-        return await WalletCrawler.getWallet(this._page, this.options, date);
     }
 
     /**
