@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const StockHistoryCrawler = require('./StockHistoryCrawler');
 const DividendsCrawler = require('./DividendsCrawler');
+const WalletCrawler = require('./WalletCrawler');
 const typedefs = require("./typedefs");
 const PuppeteerUtils = require('./PuppeteerUtils');
 
