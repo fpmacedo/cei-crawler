@@ -65,7 +65,7 @@ class CeiCrawler {
         await PuppeteerUtils.waitForAny([
             {
                 id: 'nav',
-                pr: this._page.waitForNavigation({timeout: 1200000})
+                pr: this._page.waitForNavigation({timeout: 40000})
             },
             {
                 id: 'fail',
