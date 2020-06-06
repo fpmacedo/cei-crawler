@@ -104,6 +104,13 @@ class CeiCrawler {
     }
 
     /**
+     * @returns {typedefs.DividendData} - List of available Dividends information
+     */
+    async getWallet(date) {
+        await this._login();
+        return await WalletCrawler.getWallet(this._page, this.options, date);
+    }
+    /**
      * Close puppeteer browser instance in order to free memory
      */
     async close() {
