@@ -9,6 +9,7 @@ const puppeteer = require('puppeteer');
  * @property {puppeteer.LaunchOptions} puppeteerLaunch - Puppeteer launch options
  * @property {number} loginTime - Indicates how many time to wait for login until the login error
  * @property {boolean} trace - Indicates if it should print trace messages. Helpful for debugging.
+ * @property {boolean} capDates - Prevent crawling with an invalid date in CEI
  * @property {boolean} capEndDate - Prevent crawling with a date bigger than CEI allows, causing an error
  * @property {boolean} capStartDate - Prevent crawling with a date smaller than CEI allows, causing an error
  * @memberof typdefs
